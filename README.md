@@ -1,24 +1,4 @@
 # ygo-deck-contructor
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+This project is my attempt to imitate https://www.duelingbook.com application by using Vue.js framework.
+All cards that are being used here are pulled from https://db.ygoprodeck.com/api-guide/

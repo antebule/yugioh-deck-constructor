@@ -20,9 +20,72 @@
                     </div>
                 </transition-group>
             </draggable>
+
+            <div class="deck-background-grid">
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+                <div class="deck-background-grid_box"></div>
+            </div>
         </div>
 
-        <p>Side deck</p>
+        <p style="color: white;">Side deck</p>
         <div class="side-deck" @dragover.prevent @drop.prevent="sideDeckDrop()">
             <draggable class="draggable" ghost-class="ghost">
                 <transition-group type="transition" name="flip-list">
@@ -43,9 +106,27 @@
                     </div>
                 </transition-group>
             </draggable>
+
+            <div class="side-deck-background-grid">
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid_box"></div>
+            </div>
         </div>
 
-        <p>Extra deck</p>
+        <p style="color: white;">Extra deck</p>
         <div class="extra-deck" @dragover.prevent @drop.prevent="extraDeckDrop()">
             <draggable class="draggable" ghost-class="ghost">
                 <transition-group type="transition" name="flip-list">
@@ -66,6 +147,24 @@
                     </div>
                 </transition-group>
             </draggable>
+
+            <div class="extra-deck-background-grid">
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid_box"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -258,7 +357,7 @@ export default {
 }
 
 .draggable {
-    padding: 0.5rem;
+    padding: 0.3rem 0.5rem;
 }
 
 .draggable-deck {
@@ -268,7 +367,7 @@ export default {
 .draggable-deck span {
     display: grid;
     grid-template-columns: repeat(10, 10%);
-    grid-template-rows: repeat(6, 16.6%);
+    grid-template-rows: repeat(6, 16.66%);
     height: 100%;
 }
 
@@ -285,21 +384,44 @@ export default {
     transition: transform 1.5s;
 } */
 
-/* .deck {
+.deck,
+.side-deck,
+.extra-deck {
     position: relative;
 }
 
-.background-grid {
+.deck-background-grid {
     display: grid;
     grid-template-columns: repeat(10, 10%);
-    grid-template-rows: repeat(6, 16.6%);
+    grid-template-rows: repeat(6, 16.66%);
     height: 100%;
     width: 100%;
     position: absolute;
     top: 0;
+    pointer-events: none;
 }
 
-.background-grid_box {
-    border: 1px solid red;
-} */
+.deck-background-grid_box {
+    border: 1px solid yellow;
+}
+
+.side-deck-background-grid,
+.extra-deck-background-grid {
+    display: grid;
+    grid-template-columns: repeat(15, 6.66%);
+    position: absolute;
+    top: 0;
+    padding: 0.3rem 0.5rem;
+    height: 85%;
+    width: calc(100% - 1rem);
+    pointer-events: none;
+}
+
+.side-deck-background-grid_box {
+    border: 1px solid green;
+}
+
+.extra-deck-background-grid_box {
+    border: 1px solid purple;
+}
 </style>

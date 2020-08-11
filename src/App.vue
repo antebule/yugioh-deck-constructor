@@ -31,8 +31,9 @@ export default {
     margin: 0 auto;
     display: flex;
     height: 100vh;
-    min-width: 1200px;
+    width: 1200px;
     min-height: 670px;
+    max-height: 750px;
 }
 
 .child {
