@@ -175,16 +175,18 @@ export default {
     components: {
         draggable,
     },
-    data() {
-        return {
-            deck: [],
-            sideDeck: [],
-            extraDeck: [],
-        };
-    },
     computed: {
         dropout() {
             return this.$store.getters.dropout;
+        },
+        deck() {
+            return this.$store.getters.mainDeck;
+        },
+        sideDeck() {
+            return this.$store.getters.sideDeck;
+        },
+        extraDeck() {
+            return this.$store.getters.extraDeck;
         },
     },
     watch: {
