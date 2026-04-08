@@ -3,13 +3,16 @@
         <div class="card-info">
             <div class="card-image">
                 <img v-if="card.id" class="card__img" :src="card.card_images[0].image_url" alt="card" />
-                <img v-else alt="Card Image" />
+                <img v-else src="../assets/card_back.png" class="card__img" alt="Card Image" />
             </div>
-            <div class="card-description">{{ card.desc }}</div>
+            <div class="card-description">
+                <span v-if="card.id">{{ card.desc }}</span>
+                <span v-else> Hover over any card to see its image and description.</span>
+            </div>
         </div>
         <div class="options">
             <section>
-                <input type="text" placeholder="Deck name" class="deck-name" v-model="deckName">
+                <input type="text" placeholder="Deck name" class="option deck-name" v-model="deckName">
                 <button class="option" @click="clearDeck" :disabled="isEmpty">Clear Deck</button>
             </section>
             <section>
@@ -93,39 +96,33 @@ export default {
 
 <style scoped>
 .cardview {
-    flex-basis: 22%;
-    background: white;
+    width: 22%;
 }
 
 .card-info {
     height: 70%;
-    border: 2px solid blue;
+    background-color: white;
 }
 
 .options {
-    height: 30%;
-    padding: 5px;
+    /* height: 30%; */
+    padding-top: 5px;
 }
 
 section {
-    text-align: center;
+    display: flex;
     margin-top: 5px;
+    gap: 5px;
 }
 
 .option {
     padding: 0.5rem;
-    width: 48%;
-}
-
-.option+.option {
-    margin-left: 5px;
+    font-size: 18px;
+    width: 50%;
 }
 
 .deck-name {
     padding: 8px;
-    width: 48%;
-    box-sizing: border-box;
-    margin-right: 5px;
 }
 
 .card-image {
@@ -134,7 +131,8 @@ section {
 
 .card-description {
     padding: 0.5rem;
-    height: 32%;
-    overflow: scroll;
+    height: 35%;
+    overflow-y: scroll;
+    overflow-block: auto;
 }
 </style>

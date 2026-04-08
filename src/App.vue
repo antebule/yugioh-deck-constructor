@@ -24,16 +24,18 @@ export default {
 * {
     margin: 0;
     padding: 0;
-}
-#app {
     box-sizing: border-box;
-    width: 80%;
+}
+
+#app {
     margin: 0 auto;
     display: flex;
-    height: 100vh;
-    width: 1200px;
-    min-height: 670px;
-    max-height: 750px;
+    aspect-ratio: 1.55 / 1;
+    height: 100%;
+    max-height: 100vh;
+    min-width: 1000px;
+    /* max-width: 100%; */
+    max-width: min(2000px, 95%);
 }
 
 .child {
@@ -42,10 +44,12 @@ export default {
 
 .card {
     padding: 1px;
+    overflow: hidden;
 }
 
 .card__img {
     width: 100%;
     height: 100%;
+    display: block;
 }
 </style>

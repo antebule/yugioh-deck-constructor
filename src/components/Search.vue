@@ -1,6 +1,7 @@
 <template>
     <div class="search" @dragover.prevent @drop.prevent="dropout()">
         <div class="filters">
+            <h1 style="text-align: center;">SEARCH</h1>
             <div class="filter-group">
                 <label for="name">Name:</label>
                 <input type="text" name="name" v-model="name" />
@@ -11,19 +12,15 @@
             </div>
             <div class="filter-group">
                 <label for="card">Card:</label>
-                <section>
+                <section style="display: flex; flex-grow: 1;">
                     <select name="card" id="card" v-model="card_type" @change="typeChangeed()">
                         <option value></option>
                         <option value="Monster">Monster</option>
                         <option value="Spell">Spell</option>
                         <option value="Trap">Trap</option>
                     </select>
-                    <select
-                        name="monster_card"
-                        id="card"
-                        v-model="type"
-                        :disabled="this.card_type !== 'Monster'"
-                    >
+                    <select name="monster_card" id="card" v-model="type" style="margin-left: 5px;"
+                        :disabled="this.card_type !== 'Monster'">
                         <option value></option>
                         <option value="normal">Normal</option>
                         <option value="effect">Effect</option>
@@ -83,12 +80,7 @@
             </div>
             <div class="filter-group">
                 <label for="attribute">Attribute:</label>
-                <select
-                    name="attribute"
-                    id="attribute"
-                    v-model="attribute"
-                    :disabled="this.card_type !== 'Monster'"
-                >
+                <select name="attribute" id="attribute" v-model="attribute" :disabled="this.card_type !== 'Monster'">
                     <option value></option>
                     <option value="dark">Dark</option>
                     <option value="divine">Divine</option>
@@ -99,74 +91,53 @@
                     <option value="wind">Wind</option>
                 </select>
             </div>
-            <div class="filter-group">
-                <div id="atk" class="filter-group" style="margin: 0; padding:0;">
-                    <input
-                        type="text"
-                        v-model="lessThanAtk"
-                        style="max-width:30px"
-                        :disabled="this.card_type !== 'Monster'"
-                    />
+            <div class="filter-group atk-and-def">
+                <div id="atk" class="filter-group">
+                    <input type="text" v-model="lessThanAtk" style="max-width:30px"
+                        :disabled="this.card_type !== 'Monster'" />
                     <label for="atk" class="atk">
                         <i class="fas fa-less-than-equal"></i>
                         <span>ATK</span>
                         <i class="fas fa-less-than-equal"></i>
                     </label>
-                    <input
-                        type="text"
-                        v-model="greaterThanAtk"
-                        style="max-width:30px"
-                        :disabled="this.card_type !== 'Monster'"
-                    />
+                    <input type="text" v-model="greaterThanAtk" style="max-width:30px"
+                        :disabled="this.card_type !== 'Monster'" />
                 </div>
-                <div id="def" class="filter-group" style="margin: 0; padding:0;">
-                    <input
-                        type="text"
-                        v-model="lessThanDef"
-                        style="max-width:30px"
-                        :disabled="this.card_type !== 'Monster'"
-                    />
+                <div id="def" class="filter-group">
+                    <input type="text" v-model="lessThanDef" style="max-width:30px"
+                        :disabled="this.card_type !== 'Monster'" />
                     <label for="def" class="def">
                         <i class="fas fa-less-than-equal"></i>
                         <span>DEF</span>
                         <i class="fas fa-less-than-equal"></i>
                     </label>
-                    <input
-                        type="text"
-                        v-model="greaterThanDef"
-                        style="max-width:30px"
-                        :disabled="this.card_type !== 'Monster'"
-                    />
+                    <input type="text" v-model="greaterThanDef" style="max-width:30px"
+                        :disabled="this.card_type !== 'Monster'" />
                 </div>
             </div>
             <div class="buttons">
-                <button class="pagination" @click.prevent="previous()" :disabled="this.start===0">
+                <button class="pagination" @click.prevent="previous()" :disabled="this.start === 0">
                     <i class="fas fa-caret-left"></i>
                 </button>
                 <div class="buttons__middle">
                     <button class="search-btn" @click.prevent="search()">Search</button>
                     <div class="result">{{ this.page }} / {{ this.results }}</div>
                 </div>
-                <button
-                    class="pagination"
-                    @click.prevent="next()"
-                    :disabled="(this.searchedCards.length - this.start) < 20"
-                >
+                <button class="pagination" @click.prevent="next()"
+                    :disabled="(this.searchedCards.length - this.start) < 20">
                     <i class="fas fa-caret-right"></i>
                 </button>
             </div>
         </div>
-        <div class="cards">
-            <div
-                class="card"
-                v-for="(card,index) in cards"
-                :key="index"
-                draggable="true"
-                @dragstart="drag(card)"
-                @dragend="dragEnd()"
-                @mouseover="hover(card)"
-            >
-                <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
+        <div class="cards_area">
+            <div class="cards">
+                <div class="card" v-for="(card, index) in cards" :key="index" draggable="true" @dragstart="drag(card)"
+                    @dragend="dragEnd()" @mouseover="hover(card)">
+                    <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
+                </div>
+            </div>
+            <div class="search-cards-background-grid">
+                <div v-for="i in 20" :key="i" class="search-cards-background-grid_box"></div>
             </div>
         </div>
     </div>
@@ -323,33 +294,63 @@ export default {
 
 <style scoped>
 .search {
-    flex-basis: 22%;
-    background-color: #b7ef00;
+    width: 22%;
+    background-color: yellow;
 }
 
 .filters {
-    height: 39%;
+    height: 38%;
+}
+
+.cards_area {
+    height: 62%;
+    padding: 2px;
+    position: relative;
 }
 
 .cards {
-    height: 60%;
-    padding: 2px;
+    height: 100%;
     display: grid;
-    grid-template-columns: repeat(4, 25%);
-    grid-template-rows: repeat(5, 20%);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    position: relative;
+    z-index: 1;
+}
+
+.search-cards-background-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2px;
+}
+
+.search-cards-background-grid_box {
+    background-color: lightyellow;
+    margin: 2px;
 }
 
 label {
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 24px;
+    flex-basis: 25%;
 }
 
 input {
-    padding: 3px;
+    padding: 8px;
+    box-sizing: content-box;
+    flex-grow: 1;
 }
 
 select {
-    padding: 3px;
-    border-radius: 5px;
+    padding: 8px;
+    flex-grow: 1;
+    /* border-radius: 5px; */
 }
 
 i {
@@ -361,7 +362,7 @@ i {
     justify-content: space-between;
     padding: 0 0.3rem;
     align-items: center;
-    margin: 2px;
+    margin: 4px;
 }
 
 .pagination {
@@ -385,12 +386,12 @@ i {
 }
 
 .search-btn {
-    padding: 0.3rem 1.8rem;
+    padding: 0.5rem 2rem;
 }
 
 .result {
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 
 .fa-less-than-equal,
@@ -402,5 +403,82 @@ i {
 .def {
     display: flex;
     align-items: center;
+    margin: 0 5px;
+}
+
+#atk,
+#def {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* less than 1750px */
+@media screen and (max-width: 1750px) {
+    .filters {
+        height: 40%;
+    }
+
+    .cards_area {
+        height: 60%;
+    }
+
+    label {
+        font-size: 20px;
+    }
+
+    input,
+    select {
+        padding: 5px;
+    }
+
+    .filter-group {
+        margin: 2px;
+    }
+
+    .atk-and-def {
+        flex-direction: column;
+    }
+
+    #atk {
+        margin: 4px 0;
+    }
+}
+
+/* less than 1300px */
+@media screen and (max-width: 1300px) {
+    h1 {
+        font-size: 25px;
+    }
+
+    label {
+        font-size: 14px;
+    }
+
+    input,
+    select {
+        padding: 2px;
+    }
+
+    #atk {
+        margin: 2px 0;
+    }
+
+    .buttons {
+        align-items: start;
+        margin-top: 5px;
+    }
+
+    .pagination {
+        padding: 0 0.2rem;
+    }
+
+    .search-btn {
+        padding: 0.2rem 1.5rem;
+    }
+
+    .result {
+        font-size: 1.3rem;
+    }
 }
 </style>

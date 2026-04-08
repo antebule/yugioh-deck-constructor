@@ -1,169 +1,79 @@
 <template>
     <div class="center">
-        <div class="deck" @dragover.prevent @drop.prevent="deckDrop()">
-            <draggable class="draggable-deck" ghost-class="ghost">
-                <transition-group type="transition" name="flip-list">
-                    <div
-                        class="card sortable"
-                        v-for="(card,index) in deck"
-                        :key="index"
-                        :id="index"
-                        @mouseover="hover(card)"
-                        @dragstart="mainDeckDragg($event, card)"
-                        @dragend="mainDeckDraggEnd()"
-                    >
-                        <img
-                            class="card__img"
-                            :src="card.card_images[0].image_url_small"
-                            alt="card"
-                        />
+        <!-- MAIN DECK -->
+        <div class="main-deck">
+            <div class="main-deck-side-area">
+                <div>
+                    <div class="deck-total">{{ deck.length }}</div>
+                    <hr>
+                    <div v-for="type in ['normal', 'effect', 'ritual', 'spell', 'trap']" :key="type"
+                        class="main-deck-card-type" :class="'main-deck-card-type-' + type">{{ countType(type) }}
                     </div>
-                </transition-group>
-            </draggable>
+                </div>
 
-            <div class="deck-background-grid">
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
-                <div class="deck-background-grid_box"></div>
+                <div class="main-deck-label-area">
+                    <span class="main-deck-label">DECK</span>
+                </div>
+            </div>
+
+            <div class="deck" @dragover.prevent @drop.prevent="deckDrop()">
+                <draggable class="draggable-deck" ghost-class="ghost">
+                    <transition-group type="transition" name="flip-list">
+                        <div class="card sortable" v-for="(card, index) in deck" :key="index" :id="index"
+                            @mouseover="hover(card)" @dragstart="mainDeckDragg($event, card)"
+                            @dragend="mainDeckDraggEnd()">
+                            <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
+                        </div>
+                    </transition-group>
+                </draggable>
+
+                <div class="deck-background-grid">
+                    <div v-for="i in 60" :key="i" class="deck-background-grid_box"></div>
+                </div>
             </div>
         </div>
 
-        <p style="color: white;">Side deck</p>
+        <!-- SIDE DECK -->
         <div class="side-deck" @dragover.prevent @drop.prevent="sideDeckDrop()">
-            <draggable class="draggable" ghost-class="ghost">
-                <transition-group type="transition" name="flip-list">
-                    <div
-                        class="card sortable"
-                        v-for="(card,index) in sideDeck"
-                        :key="index"
-                        :id="index"
-                        @mouseover="hover(card)"
-                        @dragstart="sideDeckDragg($event, card)"
-                        @dragend="sideDeckDraggEnd()"
-                    >
-                        <img
-                            class="card__img"
-                            :src="card.card_images[0].image_url_small"
-                            alt="card"
-                        />
-                    </div>
-                </transition-group>
-            </draggable>
+            <div class="side-deck-label-area">
+                <span class="side-deck-label">SIDE</span>
+            </div>
+            <div class="side-deck-area">
+                <draggable class="draggable" ghost-class="ghost">
+                    <transition-group type="transition" name="flip-list">
+                        <div class="card sortable" v-for="(card, index) in sideDeck" :key="index" :id="index"
+                            @mouseover="hover(card)" @dragstart="sideDeckDragg($event, card)"
+                            @dragend="sideDeckDraggEnd()">
+                            <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
+                        </div>
+                    </transition-group>
+                </draggable>
 
-            <div class="side-deck-background-grid">
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
-                <div class="side-deck-background-grid_box"></div>
+                <div class="side-deck-background-grid">
+                    <div v-for="i in 15" :key="i" class="side-deck-background-grid_box"></div>
+                </div>
             </div>
         </div>
 
-        <p style="color: white;">Extra deck</p>
+        <!-- EXTRA DECK -->
         <div class="extra-deck" @dragover.prevent @drop.prevent="extraDeckDrop()">
-            <draggable class="draggable" ghost-class="ghost">
-                <transition-group type="transition" name="flip-list">
-                    <div
-                        class="card sortable"
-                        v-for="(card,index) in extraDeck"
-                        :key="index"
-                        :id="index"
-                        @mouseover="hover(card)"
-                        @dragstart="extraDeckDragg($event, card)"
-                        @dragend="extraDeckDraggEnd()"
-                    >
-                        <img
-                            class="card__img"
-                            :src="card.card_images[0].image_url_small"
-                            alt="card"
-                        />
-                    </div>
-                </transition-group>
-            </draggable>
+            <div class="extra-deck-label-area">
+                <span class="extra-deck-label">EXTRA</span>
+            </div>
+            <div class="extra-deck-area">
+                <draggable class="draggable" ghost-class="ghost">
+                    <transition-group type="transition" name="flip-list">
+                        <div class="card sortable" v-for="(card, index) in extraDeck" :key="index" :id="index"
+                            @mouseover="hover(card)" @dragstart="extraDeckDragg($event, card)"
+                            @dragend="extraDeckDraggEnd()">
+                            <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
+                        </div>
+                    </transition-group>
+                </draggable>
 
-            <div class="extra-deck-background-grid">
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
-                <div class="extra-deck-background-grid_box"></div>
+                <div class="extra-deck-background-grid">
+                    <div v-for="i in 15" :key="i" class="extra-deck-background-grid_box"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -187,6 +97,11 @@ export default {
         },
         extraDeck() {
             return this.$store.getters.extraDeck;
+        },
+        countType() {
+            return type => {
+                return this.deck.filter((c) => c.type.toLowerCase().includes(type.toLowerCase())).length;
+            };
         },
     },
     watch: {
@@ -331,22 +246,114 @@ export default {
 
 <style scoped>
 .center {
-    flex-basis: 55%;
+    width: 55%;
+}
+
+.main-deck {
+    height: 71%;
+    display: flex;
+}
+
+.main-deck-side-area {
+    width: 8%;
+    background-color: blue;
+    height: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+}
+
+.deck-total,
+.main-deck-card-type {
+    width: 90%;
+    aspect-ratio: 3 / 4;
+    margin: 4px;
+    font-size: 50px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: lightgray;
+}
+
+
+.main-deck-card-type-normal {
+    background-color: #ebc05e;
+}
+
+.main-deck-card-type-effect {
+    background-color: sandybrown;
+}
+
+.main-deck-card-type-ritual {
+    background-color: dodgerblue;
+}
+
+.main-deck-card-type-spell {
+    background-color: #7ccf7c;
+}
+
+.main-deck-card-type-trap {
+    background-color: #e34f86;
 }
 
 .deck {
-    height: 71%;
-    border: 2px solid yellow;
+    height: 100%;
+    border: 1px solid blue;
+    background-color: rgb(113 155 249 / 93%);
+    flex: 1;
+}
+
+.side-deck,
+.extra-deck {
+    height: 10%;
+    display: flex;
 }
 
 .side-deck {
-    height: 10%;
-    border: 2px solid green;
+    background-color: green;
 }
 
 .extra-deck {
-    height: 10%;
-    border: 2px solid purple;
+    background-color: red;
+}
+
+.main-deck-label-area,
+.side-deck-label-area,
+.extra-deck-label-area {
+    width: 8%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.main-deck-label-area {
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+.main-deck-label,
+.side-deck-label,
+.extra-deck-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-weight: bold;
+    font-size: clamp(16px, 1.5vw, 28px);
+    color: white;
+    cursor: default;
+}
+
+.main-deck-label {
+    font-size: clamp(20px, 2vw, 32px);
+}
+
+
+.side-deck-area,
+.extra-deck-area {
+    position: relative;
+    width: 100%;
+    padding: .7rem .5rem;
 }
 
 /* .extra-deck .sortable-drag,
@@ -354,12 +361,15 @@ export default {
     opacity: 0;
 } */
 
-.center > div {
+.center>div {
     margin-bottom: 5px;
 }
 
 .draggable {
-    padding: 0.3rem 0.5rem;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .draggable-deck {
@@ -369,13 +379,15 @@ export default {
 .draggable-deck span {
     display: grid;
     grid-template-columns: repeat(10, 10%);
-    grid-template-rows: repeat(6, 16.66%);
+    grid-template-rows: repeat(6, 1fr);
     height: 100%;
 }
 
 .draggable span {
     display: grid;
-    grid-template-columns: repeat(15, 6.66%);
+    grid-template-columns: repeat(15, 1fr);
+    height: 100%;
+    width: 100%;
 }
 
 .ghost {
@@ -395,7 +407,7 @@ export default {
 .deck-background-grid {
     display: grid;
     grid-template-columns: repeat(10, 10%);
-    grid-template-rows: repeat(6, 16.66%);
+    grid-template-rows: repeat(6, 1fr);
     height: 100%;
     width: 100%;
     position: absolute;
@@ -404,26 +416,29 @@ export default {
 }
 
 .deck-background-grid_box {
-    border: 1px solid yellow;
+    border: 1px solid blue;
 }
 
 .side-deck-background-grid,
 .extra-deck-background-grid {
     display: grid;
-    grid-template-columns: repeat(15, 6.66%);
+    grid-template-columns: repeat(15, 1fr);
     position: absolute;
-    top: 0;
-    padding: 0.3rem 0.5rem;
-    height: 85%;
-    width: calc(100% - 1rem);
     pointer-events: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: .7rem .5rem;
 }
 
 .side-deck-background-grid_box {
-    border: 1px solid green;
+    background: lightgreen;
+    margin: 0 2px;
 }
 
 .extra-deck-background-grid_box {
-    border: 1px solid purple;
+    background: pink;
+    margin: 0 2px;
 }
 </style>
