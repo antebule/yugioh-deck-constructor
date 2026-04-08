@@ -61,6 +61,12 @@ export default new Vuex.Store({
     extraDeckDraggedCard({ commit }, payload) {
       commit("extraCard", payload);
     },
+    dragEnd({ commit }) {
+      commit("draggedCard", {});
+      commit("mainCard", {});
+      commit("sideCard", {});
+      commit("extraCard", {});
+    },
     cardHover({ commit }, payload) {
       commit("hoveredCard", payload);
     },

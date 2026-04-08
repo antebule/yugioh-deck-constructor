@@ -20,8 +20,7 @@
                 <draggable class="draggable-deck" ghost-class="ghost">
                     <transition-group type="transition" name="flip-list">
                         <div class="card sortable" v-for="(card, index) in deck" :key="index" :id="index"
-                            @mouseover="hover(card)" @dragstart="mainDeckDragg($event, card)"
-                            @dragend="mainDeckDraggEnd()">
+                            @mouseover="hover(card)" @dragstart="mainDeckDragg($event, card)" @dragend="dragEnd()">
                             <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
                         </div>
                     </transition-group>
@@ -42,8 +41,7 @@
                 <draggable class="draggable" ghost-class="ghost">
                     <transition-group type="transition" name="flip-list">
                         <div class="card sortable" v-for="(card, index) in sideDeck" :key="index" :id="index"
-                            @mouseover="hover(card)" @dragstart="sideDeckDragg($event, card)"
-                            @dragend="sideDeckDraggEnd()">
+                            @mouseover="hover(card)" @dragstart="sideDeckDragg($event, card)" @dragend="dragEnd()">
                             <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
                         </div>
                     </transition-group>
@@ -64,8 +62,7 @@
                 <draggable class="draggable" ghost-class="ghost">
                     <transition-group type="transition" name="flip-list">
                         <div class="card sortable" v-for="(card, index) in extraDeck" :key="index" :id="index"
-                            @mouseover="hover(card)" @dragstart="extraDeckDragg($event, card)"
-                            @dragend="extraDeckDraggEnd()">
+                            @mouseover="hover(card)" @dragstart="extraDeckDragg($event, card)" @dragend="dragEnd()">
                             <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
                         </div>
                     </transition-group>
@@ -120,6 +117,7 @@ export default {
                     this.extraDeck.splice(extraCard.index, 1);
                     this.$store.dispatch("dropout", false);
                 }
+                this.$store.dispatch("dragEnd");
             }
         },
     },
@@ -130,18 +128,19 @@ export default {
             if (
                 droppedCard.id &&
                 this.deck.length < 60 &&
-                this.checkType(droppedCard) &&
+                this.isExtraDeckType(droppedCard) &&
                 this.checkNumber(droppedCard)
             ) {
                 this.deck.push(droppedCard);
             } else if (
                 sideCard.card &&
                 this.deck.length < 60 &&
-                this.checkType(sideCard.card)
+                this.isExtraDeckType(sideCard.card)
             ) {
                 this.deck.push(sideCard.card);
                 this.sideDeck.splice(sideCard.index, 1);
             }
+            this.$store.dispatch("dragEnd");
         },
         sideDeckDrop() {
             const droppedCard = this.$store.getters.draggedCard;
@@ -160,6 +159,7 @@ export default {
                 this.sideDeck.push(mainCard.card);
                 this.deck.splice(mainCard.index, 1);
             }
+            this.$store.dispatch("dragEnd");
         },
         extraDeckDrop() {
             const droppedCard = this.$store.getters.draggedCard;
@@ -167,18 +167,19 @@ export default {
             if (
                 droppedCard.id &&
                 this.extraDeck.length < 15 &&
-                !this.checkType(droppedCard) &&
+                !this.isExtraDeckType(droppedCard) &&
                 this.checkNumber(droppedCard)
             ) {
                 this.extraDeck.push(droppedCard);
             } else if (
                 sideCard.card &&
                 this.extraDeck.length < 15 &&
-                !this.checkType(sideCard.card)
+                !this.isExtraDeckType(sideCard.card)
             ) {
                 this.extraDeck.push(sideCard.card);
                 this.sideDeck.splice(sideCard.index, 1);
             }
+            this.$store.dispatch("dragEnd");
         },
         checkNumber(card) {
             let number = 0;
@@ -200,18 +201,16 @@ export default {
         hover(card) {
             this.$store.dispatch("cardHover", card);
         },
-        checkType(card) {
+        isExtraDeckType(card) {
             if (
                 card.type.includes("Synchro") ||
                 card.type.includes("Link") ||
                 card.type.includes("Fusion") ||
-                card.type.includes("Pendulum") ||
                 card.type.includes("XYZ")
             ) {
                 return false;
-            } else {
-                return true;
             }
+            return true;
         },
         mainDeckDragg(event, card) {
             this.$store.dispatch("mainDeckDraggedCard", {
@@ -219,17 +218,11 @@ export default {
                 index: event.target.id,
             });
         },
-        mainDeckDraggEnd() {
-            this.$store.dispatch("mainDeckDraggedCard", {});
-        },
         sideDeckDragg(event, card) {
             this.$store.dispatch("sideDeckDraggedCard", {
                 card,
                 index: event.target.id,
             });
-        },
-        sideDeckDraggEnd() {
-            this.$store.dispatch("sideDeckDraggedCard", {});
         },
         extraDeckDragg(event, card) {
             this.$store.dispatch("extraDeckDraggedCard", {
@@ -237,8 +230,8 @@ export default {
                 index: event.target.id,
             });
         },
-        extraDeckDraggEnd() {
-            this.$store.dispatch("extraDeckDraggedCard", {});
+        dragEnd() {
+            this.$store.dispatch("dragEnd");
         },
     },
 };
