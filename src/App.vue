@@ -42,11 +42,6 @@ export default {
     margin: 5px;
 }
 
-.card {
-    padding: 1px;
-    overflow: hidden;
-}
-
 .card__img {
     width: 100%;
     height: 100%;

@@ -6,8 +6,14 @@
                 <div>
                     <div class="deck-total">{{ deck.length }}</div>
                     <hr>
-                    <div v-for="type in ['normal', 'effect', 'ritual', 'spell', 'trap']" :key="type"
-                        class="main-deck-card-type" :class="'main-deck-card-type-' + type">{{ countType(type) }}
+                    <div v-for="type in ['monster', 'spell', 'trap']" :key="type" class="main-deck-card-type"
+                        :class="'main-deck-card-type-' + type">{{ countType(type) }}
+                    </div>
+                    <div class="points-total"
+                        :class="{ 'points-total-exceeded': points > 100, 'points-hidden': !showPoints }"
+                        @click="togglePoints">
+                        <div v-if="showPoints">{{ points }}</div>
+                        <div v-else><i class="fas fa-eye-slash"></i></div>
                     </div>
                 </div>
 
@@ -19,10 +25,9 @@
             <div class="deck" @dragover.prevent @drop.prevent="deckDrop()">
                 <draggable class="draggable-deck" ghost-class="ghost">
                     <transition-group type="transition" name="flip-list">
-                        <div class="card sortable" v-for="(card, index) in deck" :key="index" :id="index"
-                            @mouseover="hover(card)" @dragstart="mainDeckDragg($event, card)" @dragend="dragEnd()">
-                            <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
-                        </div>
+                        <card v-for="(card, index) in deck" :key="index" :id="index" :card="card"
+                            :showPoints="showPoints" @hover="hover(card)" @dragstart="mainDeckDragg($event, card)"
+                            @dragend="dragEnd()" />
                     </transition-group>
                 </draggable>
 
@@ -40,10 +45,9 @@
             <div class="side-deck-area">
                 <draggable class="draggable" ghost-class="ghost">
                     <transition-group type="transition" name="flip-list">
-                        <div class="card sortable" v-for="(card, index) in sideDeck" :key="index" :id="index"
-                            @mouseover="hover(card)" @dragstart="sideDeckDragg($event, card)" @dragend="dragEnd()">
-                            <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
-                        </div>
+                        <card v-for="(card, index) in sideDeck" :key="index" :id="index" :card="card"
+                            :showPoints="showPoints" @hover="hover(card)" @dragstart="sideDeckDragg($event, card)"
+                            @dragend="dragEnd()" />
                     </transition-group>
                 </draggable>
 
@@ -61,10 +65,9 @@
             <div class="extra-deck-area">
                 <draggable class="draggable" ghost-class="ghost">
                     <transition-group type="transition" name="flip-list">
-                        <div class="card sortable" v-for="(card, index) in extraDeck" :key="index" :id="index"
-                            @mouseover="hover(card)" @dragstart="extraDeckDragg($event, card)" @dragend="dragEnd()">
-                            <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
-                        </div>
+                        <card v-for="(card, index) in extraDeck" :key="index" :id="index" :showPoints="showPoints"
+                            @hover="hover(card)" @dragstart="extraDeckDragg($event, card)" @dragend="dragEnd()"
+                            :card="card" />
                     </transition-group>
                 </draggable>
 
@@ -78,9 +81,11 @@
 
 <script>
 import draggable from "vuedraggable";
+import Card from "./Card.vue";
 export default {
     components: {
         draggable,
+        Card,
     },
     computed: {
         dropout() {
@@ -100,6 +105,15 @@ export default {
                 return this.deck.filter((c) => c.type.toLowerCase().includes(type.toLowerCase())).length;
             };
         },
+        showPoints() {
+            return this.$store.getters.showPoints;
+        },
+        points() {
+            const mainDeckPoints = this.deck.reduce((sum, card) => sum + (card.misc_info[0]?.genesys_points ?? 0), 0);
+            const sideDeckPoints = this.sideDeck.reduce((sum, card) => sum + (card.misc_info[0]?.genesys_points ?? 0), 0);
+            const extraDeckPoints = this.extraDeck.reduce((sum, card) => sum + (card.misc_info[0]?.genesys_points ?? 0), 0);
+            return mainDeckPoints + sideDeckPoints + extraDeckPoints;
+        }
     },
     watch: {
         dropout() {
@@ -233,6 +247,9 @@ export default {
         dragEnd() {
             this.$store.dispatch("dragEnd");
         },
+        togglePoints() {
+            this.$store.dispatch("togglePoints");
+        }
     },
 };
 </script>
@@ -261,7 +278,7 @@ export default {
     width: 90%;
     aspect-ratio: 3 / 4;
     margin: 4px;
-    font-size: 50px;
+    font-size: clamp(26px, 2.5vw, 55px);
     font-weight: bold;
     display: flex;
     justify-content: center;
@@ -269,17 +286,31 @@ export default {
     background: lightgray;
 }
 
+.points-total {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    width: 90%;
+    margin: 5px auto;
+    color: white;
+    background-color: black;
+    border: 5px solid greenyellow;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: clamp(16px, 1.5vw, 50px);
+}
 
-.main-deck-card-type-normal {
+.points-hidden {
+    border-color: white !important;
+}
+
+.points-total-exceeded {
+    border-color: red;
+}
+
+.main-deck-card-type-monster {
     background-color: #ebc05e;
-}
-
-.main-deck-card-type-effect {
-    background-color: sandybrown;
-}
-
-.main-deck-card-type-ritual {
-    background-color: dodgerblue;
 }
 
 .main-deck-card-type-spell {

@@ -131,10 +131,8 @@
         </div>
         <div class="cards_area">
             <div class="cards">
-                <div class="card" v-for="(card, index) in cards" :key="index" draggable="true" @dragstart="drag(card)"
-                    @dragend="dragEnd()" @mouseover="hover(card)">
-                    <img class="card__img" :src="card.card_images[0].image_url_small" alt="card" />
-                </div>
+                <Card v-for="(card, index) in cards" :key="index" :card="card" :showPoints="showPoints"
+                    @dragstart="drag(card)" @dragend="dragEnd()" @hover="hover(card)" />
             </div>
             <div class="search-cards-background-grid">
                 <div v-for="i in 20" :key="i" class="search-cards-background-grid_box"></div>
@@ -145,7 +143,11 @@
 
 <script>
 import axios from "axios";
+import Card from "./Card.vue";
 export default {
+    components: {
+        Card
+    },
     computed: {
         allCards() {
             return this.$store.getters.allCards;
@@ -171,6 +173,9 @@ export default {
         results() {
             return Math.ceil(this.searchedCards.length / 20);
         },
+        showPoints() {
+            return this.$store.getters.showPoints;
+        },
     },
     data() {
         return {
@@ -195,7 +200,7 @@ export default {
     methods: {
         getAllCards() {
             axios
-                .get("https://db.ygoprodeck.com/api/v7/cardinfo.php")
+                .get("https://db.ygoprodeck.com/api/v7/cardinfo.php?misc=yes&format=all")
                 .then((res) => {
                     this.searchedCards = res.data.data;
                     this.$store.dispatch("allCards", res.data.data);

@@ -15,6 +15,7 @@ export default new Vuex.Store({
     hoveredCard: {},
     allCards: [],
     dropout: false,
+    showPoints: true,
   },
   mutations: {
     draggedCard(store, payload) {
@@ -46,6 +47,9 @@ export default new Vuex.Store({
     },
     extraDeck(store, payload) {
       store.extraDeck = payload;
+    },
+    showPoints(store, payload) {
+      store.showPoints = payload;
     },
   },
   actions: {
@@ -85,6 +89,9 @@ export default new Vuex.Store({
     setExtraDeck({ commit }, payload) {
       commit("extraDeck", payload);
     },
+    togglePoints({ commit, state }) {
+      commit("showPoints", !state.showPoints);
+    },
   },
   getters: {
     draggedCard: (store) => store.draggedCard,
@@ -97,5 +104,6 @@ export default new Vuex.Store({
     mainDeck: (store) => store.mainDeck,
     sideDeck: (store) => store.sideDeck,
     extraDeck: (store) => store.extraDeck,
+    showPoints: (store) => store.showPoints,
   },
 });
