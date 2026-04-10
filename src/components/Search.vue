@@ -418,8 +418,8 @@ i {
 }
 
 
-/* less than 1750px */
-@media screen and (max-width: 1750px) {
+/* less than 1750px width or 1100px height */
+@media screen and ((max-width: 1750px) or (max-height: 1100px)) {
     .filters {
         height: 40%;
     }
@@ -450,8 +450,8 @@ i {
     }
 }
 
-/* less than 1300px */
-@media screen and (max-width: 1300px) {
+/* less than 1350px width or 850px height */
+@media screen and ((max-width: 1350px) or (max-height: 850px)) {
     h1 {
         font-size: 25px;
     }
@@ -463,6 +463,7 @@ i {
     input,
     select {
         padding: 2px;
+        width: 70%;
     }
 
     #atk {

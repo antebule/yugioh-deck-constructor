@@ -260,7 +260,7 @@ export default {
 }
 
 .main-deck {
-    height: 71%;
+    height: 73%;
     display: flex;
 }
 
@@ -330,7 +330,7 @@ export default {
 
 .side-deck,
 .extra-deck {
-    height: 10%;
+    height: 13%;
     display: flex;
 }
 
@@ -363,21 +363,19 @@ export default {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     font-weight: bold;
-    font-size: clamp(16px, 1.5vw, 28px);
+    font-size: clamp(20px, 2vw, 40px);
     color: white;
     cursor: default;
 }
-
-.main-deck-label {
-    font-size: clamp(20px, 2vw, 32px);
-}
-
 
 .side-deck-area,
 .extra-deck-area {
     position: relative;
     width: 100%;
-    padding: .7rem .5rem;
+    padding: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* .extra-deck .sortable-drag,
@@ -390,8 +388,8 @@ export default {
 }
 
 .draggable {
-    height: 100%;
     width: 100%;
+    aspect-ratio: 10.5 / 1;
     position: relative;
     z-index: 1;
 }
@@ -412,6 +410,10 @@ export default {
     grid-template-columns: repeat(15, 1fr);
     height: 100%;
     width: 100%;
+}
+
+.draggable .card {
+    padding: 1px 3px;
 }
 
 .ghost {
@@ -449,11 +451,9 @@ export default {
     grid-template-columns: repeat(15, 1fr);
     position: absolute;
     pointer-events: none;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: .7rem .5rem;
+    width: 100%;
+    aspect-ratio: 10.5 / 1;
+    padding: 0 .5rem;
 }
 
 .side-deck-background-grid_box {
