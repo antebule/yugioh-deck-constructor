@@ -37,20 +37,20 @@
                 <label for="card">Type:</label>
                 <select name="card" id="card" v-model="race" :disabled="this.card_type === ''">
                     <option value></option>
-                    <optgroup v-if="this.card_type === 'Spell'">
+                    <template v-if="this.card_type === 'Spell'" label="">
                         <option value="normal">Normal</option>
                         <option value="continuous">Continuous</option>
                         <option value="equip">Equip</option>
                         <option value="quick-play">Quick-Play</option>
                         <option value="field">Field</option>
                         <option value="ritual">Ritual</option>
-                    </optgroup>
-                    <optgroup v-else-if="this.card_type === 'Trap'">
+                    </template>
+                    <template v-else-if="this.card_type === 'Trap'">
                         <option value="normal">Normal</option>
                         <option value="continuous">Continuous</option>
                         <option value="counter">Counter</option>
-                    </optgroup>
-                    <optgroup v-else-if="this.card_type === 'Monster'">
+                    </template>
+                    <template v-else-if="this.card_type === 'Monster'">
                         <option value="aqua">Aqua</option>
                         <option value="beast">Beast</option>
                         <option value="beast-warrior">Beast-Warrior</option>
@@ -75,7 +75,7 @@
                         <option value="winged beast">Winged-Beast</option>
                         <option value="wyrm">Wyrm</option>
                         <option value="zombie">Zombie</option>
-                    </optgroup>
+                    </template>
                 </select>
             </div>
             <div class="filter-group">
@@ -285,6 +285,10 @@ export default {
             this.race = "";
             this.type = "";
             this.attribute = "";
+            this.lessThanAtk = "";
+            this.greaterThanAtk = "";
+            this.lessThanDef = "";
+            this.greaterThanDef = "";
         },
         dragEnd() {
             this.$store.dispatch("draggedCard", {});
