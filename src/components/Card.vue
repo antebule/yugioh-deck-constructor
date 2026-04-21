@@ -63,18 +63,20 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 20px;
-  min-height: 20px;
+  min-width: 15px;
+  min-height: 15px;
   max-width: 30px;
   max-height: 30px;
   aspect-ratio: 1 / 1;
-  width: clamp(18px, 30%, 28px);
+  width: clamp(15px, 30%, 30px);
   color: white;
   background-color: black;
   border: 3px solid red;
   border-radius: 50%;
   font-weight: bold;
-  font-size: clamp(12px, 1vw, 24px);
+  /* fallback for older browser versions */
+  font-size: clamp(10px, 1vw, 24px);
+  font-size: clamp(10px, 25cqw, 24px);
 }
 
 
@@ -102,8 +104,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 20px;
-  min-height: 20px;
+  min-width: 15px;
+  min-height: 15px;
   aspect-ratio: 1 / 1;
   width: 50%;
   color: white;
@@ -115,6 +117,6 @@ export default {
   /* fallback for older browser versions */
   font-size: 0.5em;
   /* for newer browser versions */
-  font-size: clamp(12px, 25cqw, 30px);
+  font-size: clamp(9px, 25cqw, 30px);
 }
 </style>
